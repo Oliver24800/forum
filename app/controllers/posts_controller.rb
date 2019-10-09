@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  
+
   def index
     @posts = Post.all.order("created_at DESC")
    end
@@ -34,6 +34,20 @@ class PostsController < ApplicationController
     @post.destroy
     redirect_to root_path
    end
+
+  def new
+    @post = current_user.posts.build
+  end
+
+  def create
+  @post = current_user.posts.build(post_params)
+if @post.save
+   redirect_to @post
+  else
+   render 'new'
+  end
+ end
+
 
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
